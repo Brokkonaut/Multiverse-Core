@@ -33,6 +33,7 @@ import org.bukkit.configuration.serialization.SerializableAs;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionDefault;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.Nullable;
 import org.json.simple.JSONObject;
@@ -92,6 +93,12 @@ public class MVWorld implements MultiverseWorld {
         this.props.flushChanges();
 
         validateProperties();
+
+        new BukkitRunnable() {
+            public void run() {
+                validateProperties();
+            }
+        }.runTaskLater(plugin, 1);
     }
 
     private void setupProperties() {
